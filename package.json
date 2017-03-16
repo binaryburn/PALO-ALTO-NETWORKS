@@ -1,0 +1,15 @@
+{
+    "name": "palo-utility-public",
+    "version": "1.0.0",
+    "description": "utilities for palo alto management",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Cloudticity/palo-utility-public.git"
+    },
+    "author": "Cloudticity (Rob Williams)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Cloudticity/palo-utility-public/issues"
+    },
+    "homepage": "https://github.com/Cloudticity/palo-utility-public#readme"
+}
