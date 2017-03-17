@@ -18,6 +18,10 @@ Parameters:
     Description: The elb tag name used to identify corresponding nat rule in the palo
     Type: String
     Default: palo-nat-rule
+  PaloAdmin:
+    Description: The Palo admin username.
+    Type: String
+    Default: admin
 
 Resources:
   NatRuleLambda:
@@ -32,6 +36,7 @@ Resources:
         Variables:
           ip: !Ref PaloIp
           elbTag: !Ref ElbTag
+          paloAdmin: !Ref PaloAdmin
       FunctionName: palo-nat-rule-updater
       Handler: lib/nat-rule-update.handler
       MemorySize: 128

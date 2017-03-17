@@ -22,7 +22,7 @@ A cloudformation template is provided in the project to facilitate installation 
 The following parameters are required for executing the Cloudformation template:
 * PaloIp
   * The IP address for the Palo management interface.
-PaloAdmin
+* PaloAdmin
   * The username for the Palo admin account.
 * ElbTag
   * The tag name applied to ELBs that will be included in the process.
