@@ -36,4 +36,10 @@ The following parameters are required for executing the Cloudformation template:
   Once the Cloudformation stack has been created, you will need to add an environment variable called "pw" to the Lambda function.  This is the password used to connect to the palo.  This variable must be encrypted.  For instructions on how to create an encrypted variable please refer to:
   
   http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
-   
+ 
+ 
+ #### Notes:
+  * The zip file deployed to s3 only needs to include the lib and node_modules directories.
+  * The Palo management interface needs to have port 22 open for the Lambda function to communicate.
+  * The Lambda function will be deployed outside the VPC, which means the Palo management interface needs to allow port 22 traffic from external IP addresses.  A more secure way would be to deploy the Lambda function inside the VPC.  A modification to the CF template is in process for this.
+  
