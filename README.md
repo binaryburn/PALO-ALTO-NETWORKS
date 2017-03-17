@@ -41,5 +41,5 @@ The following parameters are required for executing the Cloudformation template:
  #### Notes:
   * The zip file deployed to s3 only needs to include the lib and node_modules directories.
   * The Palo management interface needs to have port 22 open for the Lambda function to communicate.
-  * The Lambda function will be deployed outside the VPC, which means the Palo management interface needs to allow port 22 traffic from external IP addresses.  A more secure way would be to deploy the Lambda function inside the VPC.  A modification to the CF template is in process for this.
+  * Currently, the Lambda function will be deployed outside the VPC, which means the Palo management interface needs to allow port 22 traffic from external IP addresses.  A more secure way would be to deploy the Lambda function inside the VPC.  A modification to the CF template is in process for this.
   
