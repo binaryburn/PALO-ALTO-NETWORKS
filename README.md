@@ -33,7 +33,7 @@ The following parameters are required for executing the Cloudformation template:
   
   
 #### Important:
-  Once the Cloudformation stack has been created, you will need to add an environment variable called "pw" to the Lambda function.  This is the password used to connect to the palo.  This variable must be encrypted.  For instructions on how to create an encrypted variable please refer to:
+  Once the Cloudformation stack has been created, you will need to add an environment variable called "pw" to the Lambda function.  This is the password used to connect to the palo.  This variable must be encrypted.  For instructions on how to create an encrypted environment variable please refer to:
   
   http://docs.aws.amazon.com/lambda/latest/dg/env_variables.html
  
