@@ -22,12 +22,6 @@ Parameters:
     Description: The Palo admin username.
     Type: String
     Default: admin
-  PaloSecurityGroups:
-    Type: List<AWS::EC2::SecurityGroup::Id>
-    Description: Select the security group for the Palo management interface.
-  PaloSubnets:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: The subnet(s) that host the palo.
 
 Resources:
   NatRuleLambda:
@@ -52,11 +46,6 @@ Resources:
           - "Arn"
       Runtime: nodejs4.3
       Timeout: 30
-      VpcConfig:
-        SecurityGroupIds:
-          Ref: PaloSecurityGroups
-        SubnetIds:
-          Ref: PaloSubnets
   NatRuleLambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -79,9 +68,6 @@ Resources:
                 - elasticloadbalancing:Describe*
                 - logs:*
                 - kms:*
-                - ec2:DescribeNetworkInterfaces
-                - ec2:CreateNetworkInterface
-                - ec2:DeleteNetworkInterface
               Resource: "*"
   NatUpdateTimerRule:
     Type: AWS::Events::Rule
