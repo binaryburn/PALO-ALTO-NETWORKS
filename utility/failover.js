@@ -38,7 +38,7 @@ exports.updateTags = function(callback){
                 } else{
                     callback(null, response);
                 }
-            })
+            });
         },
         function updatePassiveTag(instanceIDs, callback) {
             aws.updateEC2Tag(instanceIDs.active, 'PaloState', 'passive', function(err, passiveResult){
@@ -47,16 +47,16 @@ exports.updateTags = function(callback){
                 }else{
                     callback(null, instanceIDs);
                 }
-            })
+            });
         },
         function updateActiveTag(instanceIDs, callback) {
             aws.updateEC2Tag(instanceIDs.passive, 'PaloState', 'active', function(err, activeResult){
                 if(err){
                     callback('Error updating active tag: \n' + err);
                 }else{
-                    callback(null, instanceIDs)
+                    callback(null, instanceIDs);
                 }
-            })
+            });
         }
     ], function (err, results) {
         if (err) {

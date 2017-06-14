@@ -1,0 +1,111 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Deploys Lambda functions for updating Palo Alto Networks High Availability Solution
+
+Parameters:
+  S3Bucket:
+    Description: The S3 bucket used to store Lambda zip file.
+    Type: String
+  S3Key:
+    Description: The Lambda zip file key name.
+    Type: String
+    Default: nat-rule-updater.zip
+  PaloIp:
+    Description: The IP address of the Palo management interface.
+    Type: String
+    Default: n/a
+  ElbTag:
+    Description: The elb tag name used to identify corresponding nat rule in the palo
+    Type: String
+    Default: palo-nat-rule
+  PaloAdmin:
+    Description: The Palo admin username.
+    Type: String
+    Default: admin
+  PaloSecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: Select the security group for the Palo management interface.
+  PaloSubnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The subnet(s) that host the palo.
+
+Resources:
+  NatRuleLambda:
+    Type: AWS::Lambda::Function
+    DependsOn: NatRuleLambdaRole
+    Properties:
+      Code:
+        S3Bucket: !Ref S3Bucket
+        S3Key: !Ref S3Key
+      Description: Palo Alto nat rule update function
+      Environment:
+        Variables:
+          ip: !Ref PaloIp
+          elbTag: !Ref ElbTag
+          paloAdmin: !Ref PaloAdmin
+      FunctionName: palo-nat-rule-updater
+      Handler: lib/nat-rule-update.handler
+      MemorySize: 128
+      Role:
+        Fn::GetAtt:
+          - "NatRuleLambdaRole"
+          - "Arn"
+      Runtime: nodejs4.3
+      Timeout: 30
+      VpcConfig:
+        SecurityGroupIds:
+          Ref: PaloSecurityGroups
+        SubnetIds:
+          Ref: PaloSubnets
+  NatRuleLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Path: "/"
+      Policies:
+        -
+          PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              Effect: Allow
+              Action:
+                - elasticloadbalancing:Describe*
+                - logs:*
+                - kms:*
+                - ec2:DescribeNetworkInterfaces
+                - ec2:CreateNetworkInterface
+                - ec2:DeleteNetworkInterface
+              Resource: "*"
+  NatUpdateTimerRule:
+    Type: AWS::Events::Rule
+    DependsOn: NatRuleLambda
+    Properties:
+      ScheduleExpression: rate(1 minute)
+      Description: Executes Every 1 minute
+      Targets:
+        -
+          Id: NatUpdateScheduler
+          Arn:
+           Fn::GetAtt:
+             - "NatRuleLambda"
+             - "Arn"
+  NatRuleLambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+         - "NatRuleLambda"
+         - "Arn"
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+         - "NatUpdateTimerRule"
+         - "Arn"
