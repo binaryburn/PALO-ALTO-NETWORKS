@@ -34,7 +34,7 @@ exports.updateTags = function(callback){
                 if(err){
                     callback('Error', err + '\n' + err.message);
                 } else if (response.active == 'not found'){
-                    callback('Error retrieving Palo IDs:', response)
+                    callback('Error retrieving Palo IDs:', response);
                 } else{
                     callback(null, response);
                 }
@@ -43,16 +43,16 @@ exports.updateTags = function(callback){
         function updatePassiveTag(instanceIDs, callback) {
             aws.updateEC2Tag(instanceIDs.active, 'PaloState', 'passive', function(err, passiveResult){
                 if(err){
-                    callback('Error updating passive tag: \n' + err)
+                    callback('Error updating passive tag: \n' + err);
                 }else{
-                    callback(null, instanceIDs)
+                    callback(null, instanceIDs);
                 }
             })
         },
         function updateActiveTag(instanceIDs, callback) {
             aws.updateEC2Tag(instanceIDs.passive, 'PaloState', 'active', function(err, activeResult){
                 if(err){
-                    callback('Error updating active tag: \n' + err)
+                    callback('Error updating active tag: \n' + err);
                 }else{
                     callback(null, instanceIDs)
                 }
@@ -130,8 +130,12 @@ exports.executeFailover = function (palo1Id, paloBucket, instanceMap, callback) 
 
                 async.each(manifest.EIPs, function(item, callback){
                         aws.associateElasticIP(item.eipAllocation, item.eni, item.ip, item.publicIp, function(err, result){
-                            if(err) callback(err, err.stack);
-                            else callback(null, result);
+                            if(err) {
+                                callback(err, err.stack);
+                            }
+                            else {
+                                callback(null, result);
+                            }
                         });
                     }, function(err){
                         if(err){
@@ -145,8 +149,12 @@ exports.executeFailover = function (palo1Id, paloBucket, instanceMap, callback) 
 
                 async.each(manifest.RouteTables, function(item, callback){
                         aws.addRouteTableRoute(manifest.RouteTables[i].ip, manifest.RouteTables[i].routeTable, manifest.RouteTables[i].eni, function(err, routeResult){
-                            if(err) callback(err, err.stack);
-                            else callback(null, routeResult);
+                            if(err) {
+                                callback(err, err.stack);
+                            }
+                            else {
+                                callback(null, routeResult);
+                            }
                         });
                     }, function(err){
                         if(err){
@@ -162,7 +170,9 @@ exports.executeFailover = function (palo1Id, paloBucket, instanceMap, callback) 
     }else{
         //get palo 2 manifest
         aws.getObjectS3(paloBucket, 'palo2-manifest.json', function(err, response){
-            if(err) callback(err);
+            if(err) {
+                callback(err);
+            }
             else{
                 try{
                     let manifest = JSON.parse(response);
@@ -180,14 +190,6 @@ exports.executeFailover = function (palo1Id, paloBucket, instanceMap, callback) 
                         count++;
                         if(count == manifest.EIPs.length) onComplete();
                     }
-
-                    // for (let i = 0, len = manifest.RouteTables.length; i < len; i++) {
-                    //     aws.addRouteTableRoute(manifest.RouteTables[i].ip, manifest.RouteTables[i].routeTable, manifest.RouteTables[i].eni, function(err, routeResult){
-                    //         if(err) console.log(err, err.stack);
-                    //         else console.log(null, routeResult);
-                    //     });
-                    // }
-                    //callback(null, result);
                 }catch(err){
                     //callback(err, err.message);
                 }

@@ -17,6 +17,12 @@
     * IAM permissions for timer to execute Lambda function.
     
     
+  #### Manifest File
+  
+  The export-config and execute-failover functions use a configuration manifest file to determine values to edit in configuration files.  The manifest is also used to determine which EIPs are to be re-assigned, and which route tables to edit.   
+    
+  #### Parameters
+    
   The following parameters are required for executing the Cloudformation template:
   * PaloIp
     * The IP address for the firewall management interface.

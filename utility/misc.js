@@ -185,7 +185,7 @@ exports.writeStateFile = function(filePath, file, callback){
     });
 };
 
-exports.sendNotfications = function(subject, message, requester, arn, callback){
+exports.sendNotfications = function(subject, message, arn, callback){
     aws.publishToSNS(subject, message, arn, function(err, snsResponse){
         if(err) console.log(err. snsResponse);
         else console.log(snsResponse);

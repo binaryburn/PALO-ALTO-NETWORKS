@@ -1,0 +1,65 @@
+{
+    "EIPs": [
+        {
+            "eipAllocation": "eipalloc-xxxxxxxx",
+            "ip": "10.0.2.210",
+            "publicIp": "52.5.27.149",
+            "eni": "eni-xxxxxxx"
+        },
+        {
+            "eipAllocation": "eipalloc-xxxxxxx",
+            "ip": "10.0.2.201",
+            "publicIp": "34.192.177.168",
+            "eni": "eni-xxxxxx"
+        },
+        {
+            "eipAllocation": "eipalloc-xxxxxxx",
+            "ip": "10.0.2.202",
+            "publicIp": "34.192.57.142",
+            "eni": "eni-xxxxxxxx"
+        },
+        {
+            "eipAllocation": "eipalloc-xxxxxxx",
+            "ip": "10.0.3.201",
+            "publicIp": "34.204.230.108",
+            "eni": "eni-xxxxxxxx"
+        }
+    ],
+    "RouteTables": [
+        {
+            "routeTable": "rtb-xxxxx",
+            "ip": "0.0.0.0/0",
+            "eni": "eni-xxxxxxx"
+        }
+    ],
+    "Translations": [
+        {
+            "original": "10.0.3.200",
+            "translated": "10.0.2.200"
+        },
+        {
+            "original": "10.0.3.201",
+            "translated": "10.0.2.201"
+        },
+        {
+            "original": "10.0.3.202",
+            "translated": "10.0.2.202"
+        },
+        {
+            "original": "10.0.1.203",
+            "translated": "10.0.0.203"
+        },
+        {
+            "original": "10.0.3.210",
+            "translated": "10.0.2.210"
+        },
+        {
+            "original": "10.0.3.1",
+            "translated": "10.0.2.1"
+        },
+        {
+            "original": "10.0.1.1",
+            "translated": "10.0.0.1"
+        }
+    ]
+}

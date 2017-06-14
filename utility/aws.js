@@ -27,7 +27,9 @@ exports.getLoadBalancers = function(callback){
     };
 
     elb.describeLoadBalancers(params, function(err, data) {
-        if (err) callback(err, err.stack);
+        if (err) {
+            callback(err, err.stack);
+        }
         else {
             for (let i = 0, len = data.LoadBalancerDescriptions.length; i < len; i++) {
                 let item = {
