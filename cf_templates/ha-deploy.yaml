@@ -22,10 +22,10 @@ Parameters:
     Description: The Palo admin username.
     Type: String
     Default: admin
-  PaloSecurityGroups:
+  ErrorSNSTopic:
     Type: List<AWS::EC2::SecurityGroup::Id>
     Description: Select the security group for the Palo management interface.
-  PaloSubnets:
+  FailoverSNSTopic:
     Type: List<AWS::EC2::Subnet::Id>
     Description: The subnet(s) that host the palo.
 
